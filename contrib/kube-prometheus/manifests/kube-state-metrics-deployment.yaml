@@ -28,7 +28,7 @@ spec:
           name: https-main
         resources:
           limits:
-            cpu: 20m
+            cpu: 100m
             memory: 40Mi
           requests:
             cpu: 10m
@@ -45,7 +45,7 @@ spec:
           name: https-self
         resources:
           limits:
-            cpu: 20m
+            cpu: 100m
             memory: 40Mi
           requests:
             cpu: 10m
@@ -88,7 +88,7 @@ spec:
         name: addon-resizer
         resources:
           limits:
-            cpu: 50m
+            cpu: 100m
             memory: 30Mi
           requests:
             cpu: 10m

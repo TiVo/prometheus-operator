@@ -23,7 +23,7 @@ local k = import 'ksonnet/ksonnet.beta.3/k.libsonnet';
           group_wait: '30s',
           group_interval: '5m',
           repeat_interval: '12h',
-          receiver: 'null',
+          receiver: 'slack-test',
           routes: [
             {
               receiver: 'null',
@@ -37,9 +37,42 @@ local k = import 'ksonnet/ksonnet.beta.3/k.libsonnet';
           {
             name: 'null',
           },
+          {
+            name: 'email-test',
+            email_configs: [
+              {
+                to: 'rdlee@tivo.com',
+                from: 'kubetest@tivo.com',
+                smarthost: 'smtp.tivo.com:25',
+                hello: 'kubetest.tivo.com',
+                text: "{{ .CommonAnnotations.summary }}\ndescription: {{ .CommonAnnotations.description }}",
+              },
+            ],
+          },
+          {
+            name: 'slack-test',
+            slack_configs: [
+              {
+                api_url: "https://hooks.slack.com/services/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",
+                pretext: '{{ .CommonAnnotations.summary }}',
+                text: |||
+                  {{ range .Alerts }}
+                    *Alert:* {{ .Annotations.summary }} - `{{ .Labels.severity }}`
+                    *Description:* {{ .Annotations.message }}
+                    {{ if .Annotations.runbook_url }}*Runbook URL:* {{ .Annotations.runbook_url }}
+                    {{ end }}
+                    *Details:*
+                    {{ range .Labels.SortedPairs }}- *{{ .Name }}:* `{{ .Value }}`
+                    {{ end }}
+                  {{ end }}
+                |||,
+              },
+            ],
+          },
         ],
       },
       replicas: 3,
+      externalUrl: 'http://alertmanager.ekstest.tivo.com:9093'
     },
   },
 
@@ -118,6 +151,7 @@ local k = import 'ksonnet/ksonnet.beta.3/k.libsonnet';
             runAsNonRoot: true,
             fsGroup: 2000,
           },
+          externalUrl: $._config.alertmanager.externalUrl,
         },
       },
   },

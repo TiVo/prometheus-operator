@@ -12,6 +12,7 @@ spec:
       namespace: monitoring
       port: web
   baseImage: quay.io/prometheus/prometheus
+  externalUrl: http://prometheus.ekstest.tivo.com:9090
   nodeSelector:
     beta.kubernetes.io/os: linux
   replicas: 2
@@ -29,4 +30,4 @@ spec:
   serviceAccountName: prometheus-k8s
   serviceMonitorNamespaceSelector: {}
   serviceMonitorSelector: {}
-  version: v2.5.0
+  version: v2.7.2

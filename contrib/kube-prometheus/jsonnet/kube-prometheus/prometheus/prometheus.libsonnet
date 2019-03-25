@@ -22,6 +22,7 @@ local k = import 'ksonnet/ksonnet.beta.3/k.libsonnet';
       rules: {},
       renderedRules: {},
       namespaces: ['default', 'kube-system', $._config.namespace],
+      externalUrl: 'http://prometheus.ekstest.tivo.com:9090'
     },
   },
 
@@ -190,6 +191,7 @@ local k = import 'ksonnet/ksonnet.beta.3/k.libsonnet';
             runAsNonRoot: true,
             fsGroup: 2000,
           },
+          externalUrl: $._config.prometheus.externalUrl,
         },
       },
     serviceMonitor:

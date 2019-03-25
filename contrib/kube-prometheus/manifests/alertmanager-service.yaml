@@ -5,7 +5,10 @@ metadata:
     alertmanager: main
   name: alertmanager-main
   namespace: monitoring
+  annotations:
+    service.beta.kubernetes.io/aws-load-balancer-internal: "true"
 spec:
+  type: LoadBalancer
   ports:
   - name: web
     port: 9093

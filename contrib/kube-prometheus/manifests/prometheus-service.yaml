@@ -5,7 +5,10 @@ metadata:
     prometheus: k8s
   name: prometheus-k8s
   namespace: monitoring
+  annotations:
+    service.beta.kubernetes.io/aws-load-balancer-internal: "true"
 spec:
+  type: LoadBalancer
   ports:
   - name: web
     port: 9090
@@ -13,4 +16,3 @@ spec:
   selector:
     app: prometheus
     prometheus: k8s
-  sessionAffinity: ClientIP

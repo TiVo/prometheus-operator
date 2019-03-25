@@ -5,7 +5,10 @@ metadata:
     app: grafana
   name: grafana
   namespace: monitoring
+  annotations:
+    service.beta.kubernetes.io/aws-load-balancer-internal: "true"
 spec:
+  type: LoadBalancer
   ports:
   - name: http
     port: 3000
